@@ -1,0 +1,8 @@
+[book]
+title = "Stakeholder Governance"
+authors = ["Amiya Behera"]
+language = "en"
+
+
+[output.html]
+additional-js = ["theme/cairo.js"]
