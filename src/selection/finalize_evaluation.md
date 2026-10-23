@@ -3,6 +3,7 @@ fn finalize_evaluation(ref self: ContractState, evaluation_id: u256) {
             self.reentrancyguard.start();
             let mut e = self.evaluations.entry(evaluation_id).read();
             assert(!e.final_score_set, 'AlreadyFinalized');
+            assert(e.phase == PHASE_REVEAL, 'NotRevealPhase');
             assert(get_block_timestamp() >= e.reveal_deadline, 'RevealStillOpen');
 
             let drawn_count = e.drawn_count;
@@ -250,11 +251,13 @@ fn finalize_evaluation(ref self: ContractState, evaluation_id: u256) {
 self.reentrancyguard.start();
 let mut e = self.evaluations.entry(evaluation_id).read();
 assert(!e.final_score_set, 'AlreadyFinalized');
+assert(e.phase == PHASE_REVEAL, 'NotRevealPhase');
 assert(get_block_timestamp() >= e.reveal_deadline, 'RevealStillOpen');
 ```
 - Locks against reentrancy (this function calls into ConvictionToken and Governance).
 - Loads the evaluation record as `mut e` because its state will change.
 - Rejects if already finalized (`final_score_set`).
+- Checks if in PHASE_REVEAL phase
 - Rejects if the reveal deadline hasn't passed yet — finalization is only allowed after reveal closes.
 
 ---
