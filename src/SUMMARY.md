@@ -1,5 +1,7 @@
 # Summary
 
+- [Security](./security/security_checks.md)
+
 - [selection](./selection/selection_home.md)
   - [create_stake](./selection/create_stake.md)
   - [remove_from_evaluation](./selection/remove_from_evaluation.md)
